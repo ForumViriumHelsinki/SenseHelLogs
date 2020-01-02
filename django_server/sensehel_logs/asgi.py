@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'city_logistics.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sensehel_logs.settings')
 
 application = get_asgi_application()
