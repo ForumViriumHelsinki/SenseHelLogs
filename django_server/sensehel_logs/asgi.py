@@ -1,5 +1,5 @@
 """
-ASGI config for $PROJECT_SLUG project.
+ASGI config for sensehel_logs project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

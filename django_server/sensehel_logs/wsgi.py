@@ -1,5 +1,5 @@
 """
-WSGI config for $PROJECT_SLUG project.
+WSGI config for sensehel_logs project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

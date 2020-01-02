@@ -1,4 +1,4 @@
-"""$PROJECT_SLUG URL Configuration
+"""sensehel_logs URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -19,8 +19,8 @@ from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
 schema_view = get_schema_view(
-    title="$PROJECT_NAME API",
-    description="API for interacting with the $PROJECT_NAME application",
+    title="SenseHel Logger Service API",
+    description="API for interacting with the SenseHel Logger Service application",
     version="1.0.0", public=True)
 
 

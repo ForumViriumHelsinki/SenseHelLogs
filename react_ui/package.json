@@ -1,8 +1,8 @@
 {
-  "name": "$PROJECT_NAME",
+  "name": "SenseHelLoggerService",
   "version": "0.1.0",
   "private": true,
-  "description": "UI for the $PROJECT_NAME application",
+  "description": "UI for the SenseHel Logger Service application",
   "scripts": {
     "start": "react-scripts start --no-cache",
     "build": "react-scripts build",
