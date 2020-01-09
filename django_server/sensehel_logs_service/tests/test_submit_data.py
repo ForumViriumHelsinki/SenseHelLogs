@@ -1,5 +1,4 @@
 import uuid
-from collections import OrderedDict
 from decimal import Decimal
 
 from django.urls import reverse

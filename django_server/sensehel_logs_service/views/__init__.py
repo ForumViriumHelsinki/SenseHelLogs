@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .permissions import SenseHelAuthPermission
+from .permissions import SenseHelAuthPermission  # noqa
 from .subscription import CreateSubscription
 from .data_submission import SubmitData
 
