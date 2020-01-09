@@ -18,18 +18,18 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
+from sensehel_logs_service.views import urls as app_urls
+
 schema_view = get_schema_view(
     title="SenseHel Logger Service API",
     description="API for interacting with the SenseHel Logger Service application",
     version="1.0.0", public=True)
 
-
+swagger_view = TemplateView.as_view(template_name='swagger-ui.html', extra_context={'schema_url': 'openapi-schema'})
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_auth.urls')),
     path('openapi/', schema_view, name='openapi-schema'),
-    path('swagger-ui/', TemplateView.as_view(
-        template_name='swagger-ui.html',
-        extra_context={'schema_url': 'openapi-schema'}
-    ), name='swagger-ui')
+    path('swagger-ui/', swagger_view, name='swagger-ui'),
+    path('api/', include(app_urls))
 ]
