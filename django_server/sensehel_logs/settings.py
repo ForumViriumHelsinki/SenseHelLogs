@@ -33,8 +33,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'sensehel_logs.apps.AdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',

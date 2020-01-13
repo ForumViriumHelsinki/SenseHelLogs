@@ -8,7 +8,7 @@ class AuthenticationToken(models.Model):
     token = models.UUIDField()
 
     def __str__(self):
-        return self.token
+        return str(self.token)
 
 
 class SensorAttribute(models.Model):

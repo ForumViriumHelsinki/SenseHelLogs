@@ -1,11 +1,14 @@
 from django.conf.urls import url
+from rest_framework import routers
 
 from .permissions import SenseHelAuthPermission  # noqa
-from .subscription import CreateSubscription
+from .subscription import SubscriptionsViewSet
 from .data_submission import SubmitData
 
 
-urls = [
-    url('subscriptions/', CreateSubscription.as_view(), name='subscription-create'),
+router = routers.DefaultRouter()
+router.register('subscriptions', SubscriptionsViewSet)
+
+urls = router.urls + [
     url('values/', SubmitData.as_view(), name='values-create')
 ]

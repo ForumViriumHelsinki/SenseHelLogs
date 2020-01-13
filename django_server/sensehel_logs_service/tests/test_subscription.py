@@ -1,13 +1,15 @@
 import uuid
 
 from django.urls import reverse
+from django.utils import timezone
+from rest_framework import serializers
 from rest_framework.test import APITestCase
 
 from sensehel_logs_service import models
 
 
 class SubscriptionTest(APITestCase):
-    url = reverse('subscription-create')
+    url = reverse('subscription-list')
     temp_uri = 'http://urn.fi/URN:NBN:fi:au:ucum:r73'
 
     subscription_fields = {
@@ -43,10 +45,11 @@ class SubscriptionTest(APITestCase):
         uuid_ = str(self.subscription_fields['uuid'])
         self.assertDictEqual(response.data, {
             'uuid': uuid_,
-            'attributes': [dict([
-                ('id', 1),
-                ('uri', self.temp_uri),
-                ('description', 'temperature')])]})
+            'attributes': [{
+                'id': 1,
+                'uri': self.temp_uri,
+                'description': 'temperature',
+                'values': []}]})
 
         # And a new subscription is created:
         subscription = models.Subscription.objects.get(uuid=uuid_)
@@ -76,3 +79,34 @@ class SubscriptionTest(APITestCase):
 
         # And the attribute subscription is linked to the existing attribute type
         self.assertEqual(attr.attribute_type_id, attr_type.id)
+
+    def test_fetch_subscription_data(self):
+        # Given that there is a subscription for an attribute:
+        subscription = models.Subscription.objects.create(uuid=self.subscription_fields['uuid'])
+        attr = subscription.attributes.create(
+            attribute_id=1,
+            attribute_type=models.SensorAttribute.objects.create(
+                description='temperature', uri=self.temp_uri))
+
+        # And given that there are some values stored for the subscription:
+        value = attr.values.create(timestamp = timezone.now(), value=22.5)
+
+        # When requesting to fetch the subscription:
+        response = self.client.get(reverse('subscription-detail', kwargs={'uuid': subscription.uuid}))
+
+        # Then a 200 response is received:
+        self.assertEqual(response.status_code, 200)
+
+        # And it contains the subscription along with its attributes and their values:
+        self.assertDictEqual(response.data, {
+            'uuid': str(subscription.uuid),
+            'attributes': [{
+                'id': 1,
+                'uri': 'http://urn.fi/URN:NBN:fi:au:ucum:r73',
+                'description': 'temperature',
+                'values': [{
+                    'timestamp': serializers.DateTimeField().to_representation(value.timestamp),
+                    'value': '22.5'
+                }]
+            }]
+        })

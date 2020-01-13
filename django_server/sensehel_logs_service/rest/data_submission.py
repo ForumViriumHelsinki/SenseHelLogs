@@ -3,22 +3,20 @@ from rest_framework.generics import CreateAPIView
 
 from sensehel_logs_service import models
 from .permissions import SenseHelAuthPermission
+from .serializers import SubscriptionSerializer, ValueSerializer
 
 
-class ValueSerializer(serializers.ModelSerializer):
+class CreatedValueSerializer(ValueSerializer):
     attribute = serializers.IntegerField(source='attribute.attribute_id')
 
-    class Meta:
-        model = models.Value
+    class Meta(ValueSerializer.Meta):
         fields = ['attribute', 'timestamp', 'value']
 
 
-class SubscriptionValuesSerializer(serializers.ModelSerializer):
+class SubscriptionValuesSerializer(SubscriptionSerializer):
     values = serializers.SerializerMethodField()
-    uuid = serializers.CharField()
 
-    class Meta:
-        model = models.Subscription
+    class Meta(SubscriptionSerializer.Meta):
         fields = ['uuid', 'values']
 
     def __init__(self, *args, **kwargs):
@@ -35,7 +33,7 @@ class SubscriptionValuesSerializer(serializers.ModelSerializer):
         return subscription
 
     def get_values(self, subscription):
-        return ValueSerializer(self.values, many=True).data
+        return CreatedValueSerializer(self.values, many=True).data
 
 
 class SubmitData(CreateAPIView):
