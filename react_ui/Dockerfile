@@ -12,3 +12,4 @@ FROM node:13-alpine
 WORKDIR /app
 # add the node_modules folder to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
+npm install yarn

@@ -24,5 +24,4 @@ services:
     build: ./react_ui
     command: "yarn; yarn build"
     volumes:
-      - ./react_ui/build:/app/build
-      - ./react_ui/src:/app/src
+      - ./react_ui:/app
