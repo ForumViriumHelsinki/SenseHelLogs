@@ -16,7 +16,8 @@ type SubscriptionReportProps = {
 }
 
 export default class SubscriptionPlot extends React.Component<SubscriptionReportProps> {
-  colors = ['#FF5000', '#009E92', '#d70074', '#28a745', '#6610f2']
+  colors = ['#FF5000', '#009E92', '#d70074', '#28a745', '#6610f2'];
+  btnColors = ['primary', 'secondary', 'danger', 'success']
 
   state:
     {subscription: Subscription | null, error: boolean, loading: boolean}
@@ -61,8 +62,8 @@ export default class SubscriptionPlot extends React.Component<SubscriptionReport
           {provideCSV && subscription &&
             <div className="m-1">
               Download csv:<br/>
-              {subscription.attributes.map((attribute) =>
-                <a className="btn btn-sm btn-outline-primary m-1"
+              {subscription.attributes.map((attribute, i) =>
+                <a className={`btn btn-sm btn-outline-${this.btnColors[i]} m-1`}
                    key={attribute.description}
                    href={this.csvURI(attribute)}
                    download={`${attribute.description}_${from || 'all'}.csv`}>

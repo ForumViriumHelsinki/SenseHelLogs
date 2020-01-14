@@ -6,7 +6,9 @@ import moment from "moment";
 class NavBar extends React.Component {
   render() {
     return <nav className="navbar navbar-dark bg-primary mb-2">
-      <div className="w-25"></div>
+      <div className="w-25">
+        <i className="material-icons bg-light text-primary rounded-circle p-1">timeline</i>
+      </div>
       <h5 className="mt-1 text-light">Data Wallet</h5>
       <div className="w-25 d-flex justify-content-end">
         <img style={{maxHeight: 48, marginRight: -16}} src="images/FORUM_VIRIUM_logo_white.png"/>
