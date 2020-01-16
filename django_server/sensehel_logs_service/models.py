@@ -44,5 +44,8 @@ class Value(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=1)
     timestamp = models.DateTimeField()
 
+    class Meta:
+        ordering = ['timestamp']
+
     def __str__(self):
         return str(self.value)
