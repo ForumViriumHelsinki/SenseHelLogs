@@ -110,3 +110,25 @@ class SubscriptionTest(APITestCase):
                 }]
             }]
         })
+
+    def test_unsubscribe(self):
+        # Given that there is a subscription for an attribute:
+        subscription = models.Subscription.objects.create(uuid=self.subscription_fields['uuid'])
+        attr = subscription.attributes.create(
+            attribute_id=1,
+            attribute_type=models.SensorAttribute.objects.create(
+                description='temperature', uri=self.temp_uri))
+
+        # And given that there are some values stored for the subscription:
+        value = attr.values.create(timestamp = timezone.now(), value=22.5)
+
+        # When requesting to unsubscribe:
+        token = models.AuthenticationToken.objects.create(token=uuid.uuid4())
+        data = {'uuid': subscription.uuid, 'auth_token': token.token}
+        response = self.client.post(reverse('subscription-unsubscribe'), data)
+
+        # Then a 204 response is received:
+        self.assertEqual(response.status_code, 204)
+
+        # And the subscription is deleted from the db:
+        self.assertEqual(0, models.Subscription.objects.count())

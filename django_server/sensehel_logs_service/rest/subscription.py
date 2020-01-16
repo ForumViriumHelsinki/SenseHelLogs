@@ -1,4 +1,5 @@
-from rest_framework import viewsets, mixins, permissions
+from rest_framework import viewsets, mixins, permissions, decorators
+from rest_framework.response import Response
 
 from sensehel_logs_service import models
 from .permissions import SenseHelAuthPermission
@@ -26,6 +27,7 @@ class SubscriptionsViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, v
     serializer_classes = {'create': CreateSubscriptionSerializer}
     _permission_classes = {
         'create': [SenseHelAuthPermission],
+        'unsubscribe': [SenseHelAuthPermission],
         'retrieve': [permissions.AllowAny]
     }
 
@@ -35,3 +37,11 @@ class SubscriptionsViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, v
     @property
     def permission_classes(self):
         return self._permission_classes.get(self.action or 'create')
+
+    @decorators.action(detail=False, methods=['POST'])
+    def unsubscribe(self, request):
+        try:
+            models.Subscription.objects.get(uuid=request.data['uuid']).delete()
+        except models.Subscription.DoesNotExist:
+            return Response(status=404)
+        return Response(status=204)
