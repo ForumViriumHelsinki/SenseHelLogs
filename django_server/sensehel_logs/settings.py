@@ -158,6 +158,13 @@ if LOG_DB_QUERIES:
         }
     }
 
+
+ADMINS = [['FVH Django admins', 'django-admins@forumvirium.fi']]
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = ''
+EMAIL_PORT = 25
+
 try:
     from .local_settings import *  # noqa
 except ImportError:
