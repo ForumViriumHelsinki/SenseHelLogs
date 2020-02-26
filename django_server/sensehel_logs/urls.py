@@ -16,16 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from rest_framework.schemas import get_schema_view
 
 from sensehel_logs_service.rest import urls as app_urls
-
-schema_view = get_schema_view(
-    title="SenseHel Logger Service API",
-    description="API for interacting with the SenseHel Logger Service application",
-    version="1.0.0", public=True)
+from sensehel_logs_service.rest import schema_view
 
 swagger_view = TemplateView.as_view(template_name='swagger-ui.html', extra_context={'schema_url': 'openapi-schema'})
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('openapi/', schema_view, name='openapi-schema'),
